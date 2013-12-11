@@ -41,28 +41,10 @@ for tau_v in [0.1, 1.0, 20.0]:
     s = m.add_point_source()
     s.position = (0., 0., 4 * pc)
     s.temperature = 10000.0
-    s.luminosity = 3.845e38
-
-    # TODO: Specrtum is provided, so we could use that
-
-    i = m.add_peeled_images()
-    i.set_viewing_angles([0., 30., 60., 90., 120., 180.], [0., 0., 0., 0., 0., 0.])
-    i.set_image_limits(-7.5 * pc, 7.5 * pc, -7.5 * pc, 7.5 * pc)
-    i.set_image_size(300, 300)
-
-    # Read in wavelength grid
-    wav = np.loadtxt('wave_grid_bm1_res5.dat')
-
-    # Set up monochromatic mode
-    m.set_monochromatic(True, wavelengths=wav)
-
-    # Use raytracing
-    m.set_raytracing(True)
+    s.luminosity = 3.839e38
 
     # Set up number of photons
-    m.set_n_photons(initial=1e8, imaging_sources=1e8, imaging_dust=1e8,
-                    raytracing_sources=1e8, raytracing_dust=1e8)
+    m.set_n_photons(initial=1e9, imaging=0)
 
     # Write out and run
-    m.write('bm1_slab_eff_tau{0:05.2f}.rtin'.format(tau_v), overwrite=True)
-    m.run('bm1_slab_eff_tau{0:05.2f}.rtout'.format(tau_v), mpi=True, n_processes=4, overwrite=True)
+    m.write('bm1_slab_eff_tau{0:05.2f}_temperature.rtin'.format(tau_v), overwrite=True)
