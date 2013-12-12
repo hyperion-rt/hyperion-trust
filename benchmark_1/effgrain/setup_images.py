@@ -13,7 +13,7 @@ for tau_v in [0.1, 1.0, 20.0]:
     del m.n_photons['last']
 
     i = m.add_peeled_images()
-    i.set_viewing_angles([0., 30., 60., 90., 120., 180.], [0., 0., 0., 0., 0., 0.])
+    i.set_viewing_angles([0., 30., 60., 90., 120., 150., 180.], [0., 0., 0., 0., 0., 0., 0.])
     i.set_image_limits(-7.5 * pc, 7.5 * pc, -7.5 * pc, 7.5 * pc)
     i.set_image_size(300, 300)
 
@@ -28,4 +28,4 @@ for tau_v in [0.1, 1.0, 20.0]:
                     raytracing_sources=1, raytracing_dust=1e9)
 
     # Write out and run
-    m.write('bm1_slab_eff_tau{0:05.2f}_images.rtin'.format(tau_v), overwrite=True)
+    m.write('bm1_slab_effgrain_tau_{0:05.2f}_images.rtin'.format(tau_v), overwrite=True)
