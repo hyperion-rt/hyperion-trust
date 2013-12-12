@@ -15,6 +15,6 @@ for tau in [0.1, 1.0, 20.]:
 
         for iwav, wav in enumerate([0.165, 0.570, 21.3, 161.6]):
 
-            output_file = 'images/bm1_slab_effgrain_tau_{tau:05.2f}_theta_{theta:03d}_wave_{wav:05.1f}.fits'.format(tau=tau, theta=theta, wav=wav)
+            output_file = 'images/bm1_slab_effgrain_tau_{tau:06.2f}_theta_{theta:03d}_wave_{wav:07.3f}.fits'.format(tau=tau, theta=theta, wav=wav)
 
             fits.writeto(output_file, image.val[:, :, iwav], clobber=True)
