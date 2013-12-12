@@ -9,6 +9,6 @@
 #$ -e error.$JOB_ID
 #module load impi
 #export I_MPI_DEBUG=2
-#/home/robitaille/usr_hyperion/bin/mpiexec -n 240 /home/robitaille/usr_hyperion_exp/bin/hyperion_car_mpi -f bm1_slab_effgrain_tau_00.10_images.rt{in,out}
-/home/robitaille/usr_hyperion/bin/mpiexec -n 240 /home/robitaille/usr_hyperion_exp/bin/hyperion_car_mpi -f bm1_slab_effgrain_tau_01.00_images.rt{in,out}
-#/home/robitaille/usr_hyperion/bin/mpiexec -n 240 /home/robitaille/usr_hyperion_exp/bin/hyperion_car_mpi -f bm1_slab_effgrain_tau_20.00_images.rt{in,out}
+/home/robitaille/usr_hyperion/bin/mpiexec -n 240 /home/robitaille/usr_hyperion/bin/hyperion_car_mpi -f bm1_slab_effgrain_tau_00.10_images.rt{in,out}
+/home/robitaille/usr_hyperion/bin/mpiexec -n 240 /home/robitaille/usr_hyperion/bin/hyperion_car_mpi -f bm1_slab_effgrain_tau_01.00_images.rt{in,out}
+/home/robitaille/usr_hyperion/bin/mpiexec -n 240 /home/robitaille/usr_hyperion/bin/hyperion_car_mpi -f bm1_slab_effgrain_tau_20.00_images.rt{in,out}

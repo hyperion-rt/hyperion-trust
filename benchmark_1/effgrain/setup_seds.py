@@ -23,8 +23,8 @@ for tau_v in [0.1, 1.0, 20.0]:
     m.set_raytracing(True)
 
     # Set up number of photons
-    m.set_n_photons(imaging_sources=1e7, imaging_dust=1e7,
-                    raytracing_sources=1, raytracing_dust=1e7)
+    m.set_n_photons(imaging_sources=1e6, imaging_dust=1e6,
+                    raytracing_sources=1, raytracing_dust=1e6)
 
     # Write out and run
     m.write('bm1_slab_effgrain_tau_{0:05.2f}_seds.rtin'.format(tau_v), overwrite=True)
