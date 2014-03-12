@@ -1,0 +1,5 @@
+To (re-)produce all models and results, just open a terminal, go to this directory, and invoke
+python run_all.py
+
+The setup_models.py and plot_results.py scripts can also be used to run an individual or additional model. The model can be configured using command-line arguments. For a brief description of the script capabilities, try e.g.
+python setup_models.py --help
