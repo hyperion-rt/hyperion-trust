@@ -1,7 +1,15 @@
+import os
+
 import numpy as np
+
 from hyperion.model import Model
 from hyperion.dust import SphericalDust
 from hyperion.util.constants import pc, au, sigma, pi, rsun
+
+NPHOTONS = 1e7
+
+if not os.path.exists('models'):
+    os.mkdir('models')
 
 # TODO: remove dust around source
 
@@ -62,8 +70,8 @@ s.temperature = 33000.
 s.luminosity = 4 * pi * s.radius ** 2 * sigma * s.temperature ** 4
 
 # Set up number of photons
-m.set_n_photons(initial=1e7, imaging=0)
+m.set_n_photons(initial=NPHOTONS, imaging=0)
 
 # Write out and run
-m.write('bm2_eff_temperature.rtin', overwrite=True)
-m.run('bm2_eff_temperature.rtout', mpi=True, n_processes=12)
+m.write(os.path.join('models', 'bm2_eff_car_temperature.rtin'), overwrite=True)
+m.run(os.path.join('models', 'bm2_eff_car_temperature.rtout'), mpi=True, overwrite=True)
