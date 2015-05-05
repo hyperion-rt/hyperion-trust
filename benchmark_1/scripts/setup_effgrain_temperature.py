@@ -1,7 +1,14 @@
+import os
+
 import numpy as np
+
 from hyperion.model import Model
 from hyperion.dust import SphericalDust
 from hyperion.util.constants import pc
+
+if not os.path.exists('models'):
+    os.mkdir('models')
+
 
 for tau_v in [0.1, 1.0, 20.0]:
 
@@ -25,7 +32,7 @@ for tau_v in [0.1, 1.0, 20.0]:
 
     # Grain Properties:
 
-    d = SphericalDust('integrated_hg_scattering.hdf5')
+    d = SphericalDust('../dust/integrated_hg_scattering.hdf5')
     chi_v = d.optical_properties.interp_chi_wav(0.55)
 
     # Determine density in slab
@@ -47,4 +54,4 @@ for tau_v in [0.1, 1.0, 20.0]:
     m.set_n_photons(initial=1e9, imaging=0)
 
     # Write out and run
-    m.write('bm1_slab_eff_tau{0:05.2f}_temperature.rtin'.format(tau_v), overwrite=True)
+    m.write('models/bm1_slab_eff_tau{0:05.2f}_temperature.rtin'.format(tau_v), overwrite=True)
