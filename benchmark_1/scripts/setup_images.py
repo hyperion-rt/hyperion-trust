@@ -32,6 +32,6 @@ for model_path in glob.glob(os.path.join('models', '*_temperature.rtout')):
                     raytracing_sources=1, raytracing_dust=NPHOTONS)
 
     # Write out and run
-    model_name = os.path.basename(model_path).rsplit('.')[0].replace('temperature', 'images')
+    model_name = os.path.join('models', os.path.basename(model_path).replace('temperature.rtout', 'images'))
     m.write(model_name + '.rtin', overwrite=True)
     m.run(model_name + '.rtout', overwrite=True)

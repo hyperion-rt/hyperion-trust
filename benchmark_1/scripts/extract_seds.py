@@ -1,19 +1,25 @@
+import os
+import glob
+
 import numpy as np
-from hyperion.model import ModelOutput
-from hyperion.util.constants import kpc
 from astropy.io import fits
 
+from hyperion.model import ModelOutput
+from hyperion.util.constants import kpc
 
-for tau in [0.1, 1.0, 20.]:
+if not os.path.exists('seds'):
+    os.mkdir('seds')
 
-    input_file = 'bm1_slab_effgrain_tau_{tau:05.2f}_seds.rtout'.format(tau=tau)
+for model_path in glob.glob(os.path.join('models', '*_seds.rtout')):
 
-    m = ModelOutput(input_file)
+    m = ModelOutput(model_path)
+
+    model_name = os.path.basename(model_path).replace('_seds.rtout', '')
 
     for iincl, theta in enumerate([0, 30, 60, 90, 120, 150, 180]):
 
         sed = m.get_sed(inclination=iincl, units='Jy', distance=10. * kpc, aperture=-1)
 
-        output_file = 'seds/bm1_slab_effgrain_tau_{tau:06.2f}_theta_{theta:03d}_sed.dat'.format(tau=tau, theta=theta)
+        output_file = 'seds/{name}_theta_{theta:03d}_sed.dat'.format(name=model_name, theta=theta)
 
-        np.savetxt(output_file, zip(sed.wav, sed.val), fmt="%10.4e")
+        np.savetxt(output_file, list(zip(sed.wav, sed.val)), fmt="%10.4e")

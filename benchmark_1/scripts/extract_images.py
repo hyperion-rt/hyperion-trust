@@ -1,13 +1,19 @@
-from hyperion.model import ModelOutput
-from hyperion.util.constants import kpc
+import os
+import glob
+
 from astropy.io import fits
 
+from hyperion.model import ModelOutput
+from hyperion.util.constants import kpc
 
-for tau in [0.1, 1.0, 20.]:
+if not os.path.exists('images'):
+    os.mkdir('images')
 
-    input_file = 'bm1_slab_effgrain_tau_{tau:05.2f}_images.rtout'.format(tau=tau)
+for model_path in glob.glob(os.path.join('models', '*_images.rtout')):
 
-    m = ModelOutput(input_file)
+    m = ModelOutput(model_path)
+
+    model_name = os.path.basename(model_path).replace('_images.rtout', '')
 
     for iincl, theta in enumerate([0, 30, 60, 90, 120, 150, 180]):
 
@@ -15,6 +21,6 @@ for tau in [0.1, 1.0, 20.]:
 
         for iwav, wav in enumerate([0.165, 0.570, 21.3, 161.6]):
 
-            output_file = 'images/bm1_slab_effgrain_tau_{tau:06.2f}_theta_{theta:03d}_wave_{wav:07.3f}.fits'.format(tau=tau, theta=theta, wav=wav)
+            output_file = 'images/{name}_theta_{theta:03d}_wave_{wav:07.3f}.fits'.format(name=model_name, theta=theta, wav=wav)
 
             fits.writeto(output_file, image.val[:, :, iwav], clobber=True)
