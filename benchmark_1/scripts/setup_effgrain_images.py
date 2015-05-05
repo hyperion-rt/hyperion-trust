@@ -1,11 +1,15 @@
-import numpy as np
+import os
+import glob
+
 from hyperion.model import Model
 from hyperion.dust import SphericalDust
 from hyperion.util.constants import pc
 
-for tau_v in [0.1, 1.0, 20.0]:
+NPHOTONS = 1e9
 
-    m = Model.read('bm1_slab_eff_tau{0:05.2f}_temperature.rtout'.format(tau_v), only_initial=False)
+for model_path in glob.glob(os.path.join('models', '*_temperature.rtout')):
+
+    m = Model.read(model_path, only_initial=False)
 
     m.set_n_initial_iterations(0)
 
@@ -24,8 +28,10 @@ for tau_v in [0.1, 1.0, 20.0]:
     m.set_raytracing(True)
 
     # Set up number of photons
-    m.set_n_photons(imaging_sources=1e9, imaging_dust=1e9,
-                    raytracing_sources=1, raytracing_dust=1e9)
+    m.set_n_photons(imaging_sources=NPHOTONS, imaging_dust=NPHOTONS,
+                    raytracing_sources=1, raytracing_dust=NPHOTONS)
 
     # Write out and run
-    m.write('bm1_slab_effgrain_tau_{0:05.2f}_images.rtin'.format(tau_v), overwrite=True)
+    model_name = os.path.basename(model_path).rsplit('.')[0].replace('temperature', 'images')
+    m.write(model_name + '.rtin', overwrite=True)
+    m.run(model_name + '.rtout', overwrite=True)

@@ -54,4 +54,6 @@ for tau_v in [0.1, 1.0, 20.0]:
     m.set_n_photons(initial=1e9, imaging=0)
 
     # Write out and run
-    m.write('models/bm1_slab_eff_tau{0:05.2f}_temperature.rtin'.format(tau_v), overwrite=True)
+    model_name = 'models/bm1_slab_eff_tau{0:05.2f}_temperature'.format(tau_v)
+    m.write(model_name + '.rtin', overwrite=True)
+    m.run(model_name + '.rtout', mpi=True, overwrite=True)
