@@ -7,7 +7,8 @@ from hyperion.model import Model
 from hyperion.dust import SphericalDust
 from hyperion.util.constants import pc
 
-NPHOTONS = 1e3
+NPHOTONS = 1e6
+NPHOTONS_RAY = 1e8
 
 WAV = np.logspace(-1, 3, 45)
 
@@ -32,9 +33,9 @@ for model_path in glob.glob(os.path.join('models', '*_temperature.rtout')):
 
     # Set up number of photons
     m.set_n_photons(imaging_sources=NPHOTONS, imaging_dust=NPHOTONS,
-                    raytracing_sources=1, raytracing_dust=NPHOTONS)
+                    raytracing_sources=1, raytracing_dust=NPHOTONS_RAY)
 
     # Write out and run
     model_name = os.path.join('models', os.path.basename(model_path).replace('temperature.rtout', 'seds'))
     m.write(model_name + '.rtin', overwrite=True)
-    m.run(model_name + '.rtout', mpi=True, overwrite=True, n_processes=4)
+    #m.run(model_name + '.rtout', mpi=True, overwrite=True, n_processes=4)

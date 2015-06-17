@@ -4,7 +4,7 @@ import numpy as np
 
 from hyperion.model import Model
 from hyperion.dust import SphericalDust
-from hyperion.util.constants import pc
+from hyperion.util.constants import pc, c
 
 NPHOTONS = 1e9
 NITER_MAX = 20
@@ -34,12 +34,10 @@ for tau_v in [0.01, 0.1, 1, 10, 100]:
     # * slab xy extend = -5 pc to 5 pc
     # * z optical depth @0.55um in slab = 0.1, 1, 20
     # * optical depth outside slab = 0
-
     x = np.linspace(-5 * pc, 5 * pc, 100)
     y = np.linspace(-5 * pc, 5 * pc, 100)
-    # z = np.hstack([np.linspace(-5 * pc, -2 * pc, 100), 5 * pc])
-    zfine = -2 - np.logspace(-3, np.log10(3), 100) * pc
-    z = np.hstack([zfine[::-1], 5 * pc])
+    zfine = -2 - np.logspace(-3, np.log10(3), 200)
+    z = np.hstack([zfine[::-1], -2, 5]) * pc
 
     m.set_cartesian_grid(x, y, z)
 
@@ -58,10 +56,16 @@ for tau_v in [0.01, 0.1, 1, 10, 100]:
     m.add_density_grid(density, d)
 
     # Set up illuminating source:
+
+    wav, fnu = np.loadtxt('data/BB_T10000_L100000.dat', usecols=[0,1], unpack=True)
+    nu = c / (wav * 1.e-4)
+    nu = nu[::-1]
+    fnu = fnu[::-1]
+
     s = m.add_point_source()
     s.position = (0., 0., 4 * pc)
-    s.temperature = 10000.0
     s.luminosity = 3.839e38
+    s.spectrum = (nu, fnu)
 
     # Set up number of photons
     m.set_n_photons(initial=NPHOTONS, imaging=0)
@@ -74,4 +78,4 @@ for tau_v in [0.01, 0.1, 1, 10, 100]:
     # Write out and run
     model_name = 'models/hyper_slab_eff_t{0}_temperature'.format(TAU_LABEL[tau_v])
     m.write(model_name + '.rtin', overwrite=True)
-    m.run(model_name + '.rtout', mpi=True, overwrite=True, n_processes=12)
+    # m.run(model_name + '.rtout', mpi=True, overwrite=True, n_processes=12)
