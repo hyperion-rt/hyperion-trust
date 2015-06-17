@@ -7,7 +7,9 @@ from hyperion.model import Model
 from hyperion.dust import SphericalDust
 from hyperion.util.constants import pc
 
-NPHOTONS = 1e6
+NPHOTONS = 1e3
+
+WAV = np.logspace(-1, 3, 45)
 
 for model_path in glob.glob(os.path.join('models', '*_temperature.rtout')):
 
@@ -23,8 +25,7 @@ for model_path in glob.glob(os.path.join('models', '*_temperature.rtout')):
                          [0., 0., 0., 0., 0., 0., 0.])
 
     # Set up monochromatic mode
-    wavelengths = np.loadtxt('data/wave_grid_bm1_res5.dat')
-    m.set_monochromatic(True, wavelengths=wavelengths)
+    m.set_monochromatic(True, wavelengths=WAV)
 
     # Use raytracing
     m.set_raytracing(True)
@@ -36,4 +37,4 @@ for model_path in glob.glob(os.path.join('models', '*_temperature.rtout')):
     # Write out and run
     model_name = os.path.join('models', os.path.basename(model_path).replace('temperature.rtout', 'seds'))
     m.write(model_name + '.rtin', overwrite=True)
-    m.run(model_name + '.rtout', overwrite=True)
+    m.run(model_name + '.rtout', mpi=True, overwrite=True, n_processes=4)

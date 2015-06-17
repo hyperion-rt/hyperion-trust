@@ -6,11 +6,22 @@ from hyperion.model import Model
 from hyperion.dust import SphericalDust
 from hyperion.util.constants import pc
 
+NPHOTONS = 1e9
+NITER_MAX = 20
+
 if not os.path.exists('models'):
     os.mkdir('models')
 
 
-for tau_v in [0.1, 1.0, 20.0]:
+TAU_LABEL = {}
+TAU_LABEL[0.01] = "1e-2"
+TAU_LABEL[0.1] = "1e-1"
+TAU_LABEL[1] = "1e+0"
+TAU_LABEL[10] = "1e+1"
+TAU_LABEL[100] = "1e+2"
+
+
+for tau_v in [0.01, 0.1, 1, 10, 100]:
 
     m = Model()
 
@@ -26,13 +37,15 @@ for tau_v in [0.1, 1.0, 20.0]:
 
     x = np.linspace(-5 * pc, 5 * pc, 100)
     y = np.linspace(-5 * pc, 5 * pc, 100)
-    z = np.hstack([np.linspace(-5 * pc, -2 * pc, 100), 5 * pc])
+    # z = np.hstack([np.linspace(-5 * pc, -2 * pc, 100), 5 * pc])
+    zfine = -2 - np.logspace(-3, np.log10(3), 100) * pc
+    z = np.hstack([zfine[::-1], 5 * pc])
 
     m.set_cartesian_grid(x, y, z)
 
     # Grain Properties:
 
-    d = SphericalDust('../dust/integrated_hg_scattering.hdf5')
+    d = SphericalDust('../dust/integrated_hg_scattering_mid.hdf5')
     chi_v = d.optical_properties.interp_chi_wav(0.55)
 
     # Determine density in slab
@@ -51,9 +64,14 @@ for tau_v in [0.1, 1.0, 20.0]:
     s.luminosity = 3.839e38
 
     # Set up number of photons
-    m.set_n_photons(initial=1e9, imaging=0)
+    m.set_n_photons(initial=NPHOTONS, imaging=0)
+
+    m.conf.output.output_specific_energy = 'all'
+    m.set_n_initial_iterations(NITER_MAX)
+
+    m.set_convergence(True, percentile=99.9, absolute=2., relative=1.01)
 
     # Write out and run
-    model_name = 'models/bm1_slab_eff_tau{0:05.2f}_temperature'.format(tau_v)
+    model_name = 'models/hyper_slab_eff_t{0}_temperature'.format(TAU_LABEL[tau_v])
     m.write(model_name + '.rtin', overwrite=True)
-    m.run(model_name + '.rtout', mpi=True, overwrite=True)
+    m.run(model_name + '.rtout', mpi=True, overwrite=True, n_processes=12)

@@ -20,6 +20,6 @@ for model_path in glob.glob(os.path.join('models', '*_seds.rtout')):
 
         sed = m.get_sed(inclination=iincl, units='Jy', distance=10. * kpc, aperture=-1)
 
-        output_file = 'seds/{name}_theta_{theta:03d}_sed.dat'.format(name=model_name, theta=theta)
+        output_file = 'seds/{name}_i{theta:03d}a000.sed'.format(name=model_name, theta=theta)
 
-        np.savetxt(output_file, list(zip(sed.wav, sed.val)), fmt="%10.4e")
+        np.savetxt(output_file, list(zip(sed.wav, sed.val)), fmt="%11.5e")
