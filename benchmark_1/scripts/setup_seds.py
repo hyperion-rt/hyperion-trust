@@ -24,6 +24,7 @@ for model_path in glob.glob(os.path.join('models', '*_temperature.rtout')):
     i = m.add_peeled_images(sed=True, image=False)
     i.set_viewing_angles([0., 30., 60., 90., 120., 150., 180.],
                          [0., 0., 0., 0., 0., 0., 0.])
+    i.set_track_origin('basic')
 
     # Set up monochromatic mode
     m.set_monochromatic(True, wavelengths=WAV)

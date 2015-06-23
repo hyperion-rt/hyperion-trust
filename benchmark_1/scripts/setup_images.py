@@ -11,7 +11,7 @@ NPHOTONS = 1e8
 NPHOTONS_RAY = 1e8
 
 WAV = np.logspace(-1, 3, 45)
-WAV_IM = WAV[np.array([2, 8, 26, 35])]
+WAV_IM = WAV[np.array([2, 8, 28, 35])]
 
 for model_path in glob.glob(os.path.join('models', '*_temperature.rtout')):
 
