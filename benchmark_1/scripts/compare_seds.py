@@ -10,15 +10,15 @@ plt.rcParams['font.family'] = 'Arial'
 fig1 = plt.figure(figsize=(10,7))
 fig2 = plt.figure(figsize=(10,7))
 
-for i, tau_v in enumerate(['1e-2', '1e-1', '1e+0', '1e+1', '1e+2'][:4]):
+for i, tau_v in enumerate(['1e-2', '1e-1', '1e0', '1e1']):
 
     ax1 = fig1.add_subplot(2,2,i+1)
     ax2 = fig2.add_subplot(2,2,i+1)
 
     for theta in [0, 30, 60, 90, 120, 150, 180]:
 
-        reference = os.path.join('reference', '0.5.0', 'DIRTY_bm1_effgrain_tau_{0:06.2f}_theta_{1:03d}_SED.dat'.format(eval(tau_v), theta))
-        hyperion = os.path.join('seds', 'hyper_slab_eff_t{0}_i{1:03d}a000.sed'.format(tau_v, theta))
+        reference = os.path.join('reference', 'dirty', 'dirty_slab_eff_t{0}_i{1:03d}a000.sed'.format(tau_v, theta))
+        hyperion = os.path.join('hyper_slab_eff_0.9.2', 'seds', 'hyper_slab_eff_t{0}_i{1:03d}a000.sed'.format(tau_v, theta))
 
         wav_ref, fnu_ref = np.loadtxt(reference, usecols=[0,1], unpack=True)
 

@@ -25,10 +25,9 @@ for model_path in glob.glob(os.path.join('models', '*_temperature.rtout')):
     i = m.add_peeled_images()
     i.set_viewing_angles([0., 30., 60., 90., 120., 150., 180.], np.repeat(270, 7))
     i.set_image_limits(-7.5 * pc, 7.5 * pc, -7.5 * pc, 7.5 * pc)
+    i.set_track_origin('basic')
 
-    if 't1e+2' in model_path:
-        size = 3000
-    elif 't1e+1' in model_path:
+    if 't1e+1' in model_path:
         size = 600
     else:
         size = 300

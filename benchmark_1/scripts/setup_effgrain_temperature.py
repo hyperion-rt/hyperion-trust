@@ -18,10 +18,9 @@ TAU_LABEL[0.01] = "1e-2"
 TAU_LABEL[0.1] = "1e-1"
 TAU_LABEL[1] = "1e+0"
 TAU_LABEL[10] = "1e+1"
-TAU_LABEL[100] = "1e+2"
 
 
-for tau_v in [0.01, 0.1, 1, 10, 100]:
+for tau_v in [0.01, 0.1, 1, 10]:
 
     m = Model()
 
@@ -44,7 +43,7 @@ for tau_v in [0.01, 0.1, 1, 10, 100]:
     # Grain Properties:
 
     d = SphericalDust('../dust/integrated_hg_scattering_mid.hdf5')
-    chi_v = d.optical_properties.interp_chi_wav(0.55)
+    chi_v = d.optical_properties.interp_chi_wav(1.)
 
     # Determine density in slab
     rho0 = tau_v / (3 * pc * chi_v)

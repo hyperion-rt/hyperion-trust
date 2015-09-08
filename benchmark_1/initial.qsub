@@ -14,4 +14,3 @@ source /home/robitaille/anaconda/bin/activate production
 /home/robitaille/usr_hyperion/bin/mpiexec -n 240 /home/robitaille/anaconda/envs/production/bin/hyperion_car_mpi models/hyper_slab_eff_t1e-1_temperature.rt{in,out}
 /home/robitaille/usr_hyperion/bin/mpiexec -n 240 /home/robitaille/anaconda/envs/production/bin/hyperion_car_mpi models/hyper_slab_eff_t1e+1_temperature.rt{in,out}
 /home/robitaille/usr_hyperion/bin/mpiexec -n 240 /home/robitaille/anaconda/envs/production/bin/hyperion_car_mpi models/hyper_slab_eff_t1e-2_temperature.rt{in,out}
-/home/robitaille/usr_hyperion/bin/mpiexec -n 240 /home/robitaille/anaconda/envs/production/bin/hyperion_car_mpi models/hyper_slab_eff_t1e+2_temperature.rt{in,out}

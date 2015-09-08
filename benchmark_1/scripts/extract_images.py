@@ -9,7 +9,7 @@ from hyperion.model import ModelOutput
 from hyperion.util.constants import kpc
 
 WAV = np.logspace(-1, 3, 45)
-WAV_IM = WAV[np.array([2, 8, 26, 35])]
+WAV_IM = WAV[np.array([2, 8, 28, 35])]
 
 if not os.path.exists('images'):
     os.mkdir('images')
@@ -32,4 +32,7 @@ for model_path in glob.glob(os.path.join('models', '*_images.rtout')):
         
             output_file = 'images/{name}_i{theta:03d}a000_w{wav:06.2f}.fits'.format(name=model_name, theta=theta, wav=wav)
         
+            # TODO: remove me once fixed upstream
+            output_file = output_file.replace('t1e+0', 't1e0').replace('t1e+1', 't1e1').replace('t1e+2', 't1e2')
+
             fits.writeto(output_file, image.val[:, :, iwav], clobber=True)

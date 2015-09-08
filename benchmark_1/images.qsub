@@ -10,8 +10,7 @@
 #module load impi
 #export I_MPI_DEBUG=2
 source /home/robitaille/anaconda/bin/activate production
-/home/robitaille/usr_hyperion/bin/mpiexec -n 240 /home/robitaille/anaconda/envs/production/bin/hyperion_car_mpi models/hyper_slab_eff_t1e+0_images.rt{in,out}
-/home/robitaille/usr_hyperion/bin/mpiexec -n 240 /home/robitaille/anaconda/envs/production/bin/hyperion_car_mpi models/hyper_slab_eff_t1e-1_images.rt{in,out}
-/home/robitaille/usr_hyperion/bin/mpiexec -n 240 /home/robitaille/anaconda/envs/production/bin/hyperion_car_mpi models/hyper_slab_eff_t1e+1_images.rt{in,out}
-/home/robitaille/usr_hyperion/bin/mpiexec -n 240 /home/robitaille/anaconda/envs/production/bin/hyperion_car_mpi models/hyper_slab_eff_t1e-2_images.rt{in,out}
-/home/robitaille/usr_hyperion/bin/mpiexec -n 40 /home/robitaille/anaconda/envs/production/bin/hyperion_car_mpi -f models/hyper_slab_eff_t1e+2_images.rt{in,out}
+/home/robitaille/usr_hyperion/bin/mpiexec -n 40 /home/robitaille/anaconda/envs/production/bin/hyperion_car_mpi models/hyper_slab_eff_t1e+0_images.rt{in,out}
+/home/robitaille/usr_hyperion/bin/mpiexec -n 40 /home/robitaille/anaconda/envs/production/bin/hyperion_car_mpi models/hyper_slab_eff_t1e-1_images.rt{in,out}
+/home/robitaille/usr_hyperion/bin/mpiexec -n 40 /home/robitaille/anaconda/envs/production/bin/hyperion_car_mpi models/hyper_slab_eff_t1e+1_images.rt{in,out}
+/home/robitaille/usr_hyperion/bin/mpiexec -n 40 /home/robitaille/anaconda/envs/production/bin/hyperion_car_mpi models/hyper_slab_eff_t1e-2_images.rt{in,out}
