@@ -1,6 +1,9 @@
 import os
 import glob
 
+import matplotlib
+matplotlib.use('Agg')
+
 import numpy as np
 from astropy.io import fits
 
