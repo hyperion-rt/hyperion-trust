@@ -35,7 +35,7 @@ for model_path in glob.glob(os.path.join('models', '*_temperature.rtout')):
     i.set_image_size(size, size)
 
     # Set up monochromatic mode
-    m.set_monochromatic(True, wavelengths=WAV_IM)
+    m.set_monochromatic(True, wavelengths=WAV_IM, energy_threshold=1e-120)
 
     # Use raytracing
     m.set_raytracing(True)
@@ -43,6 +43,10 @@ for model_path in glob.glob(os.path.join('models', '*_temperature.rtout')):
     # Set up number of photons
     m.set_n_photons(imaging_sources=NPHOTONS, imaging_dust=NPHOTONS,
                     raytracing_sources=1, raytracing_dust=NPHOTONS_RAY)
+
+    # Set up forced first scattering, which will ensure that we get the correct
+    # scattered flux at high optical depths in the slab.
+    m.set_forced_first_interaction(True, algorithm='baes16', baes16_xi=0.2)
 
     # Write out and run
     model_name = os.path.join('models', os.path.basename(model_path).replace('temperature.rtout', 'images'))
