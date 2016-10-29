@@ -8,10 +8,10 @@ from hyperion.util.constants import pc, c
 
 NPHOTONS = 1e9
 NITER_MAX = 20
+NITER = 10
 
 if not os.path.exists('models'):
     os.mkdir('models')
-
 
 TAU_LABEL = {}
 TAU_LABEL[0.01] = "1e-2"
@@ -31,7 +31,7 @@ for tau_v in [0.01, 0.1, 1, 10]:
     # * system coordinates (x,y,z min/max) = -5 to +5 pc
     # * slab z extent = -2 to -5 pc
     # * slab xy extend = -5 pc to 5 pc
-    # * z optical depth @0.55um in slab = 0.1, 1, 20
+    # * z optical depth @1um in slab = 0.01, 0.1, 1, 10
     # * optical depth outside slab = 0
     x = np.linspace(-5 * pc, 5 * pc, 100)
     y = np.linspace(-5 * pc, 5 * pc, 100)
@@ -42,7 +42,7 @@ for tau_v in [0.01, 0.1, 1, 10]:
 
     # Grain Properties:
 
-    d = SphericalDust('../dust/integrated_hg_scattering_mid.hdf5')
+    d = SphericalDust('../dust/effgrain_1.0.hdf5')
     chi_v = d.optical_properties.interp_chi_wav(1.)
 
     # Determine density in slab
@@ -70,11 +70,17 @@ for tau_v in [0.01, 0.1, 1, 10]:
     m.set_n_photons(initial=NPHOTONS, imaging=0)
 
     m.conf.output.output_specific_energy = 'all'
-    m.set_n_initial_iterations(NITER_MAX)
 
-    m.set_convergence(True, percentile=99.9, absolute=2., relative=1.01)
+    # The settings below converge after 4 iterations, so we force 10 iterations
+    # instead to be safe since this run doesn't take too long.
+    # m.set_n_initial_iterations(NITER_MAX)
+    # m.set_convergence(True, percentile=99.9, absolute=2., relative=1.01)
+    m.set_n_initial_iterations(NITER)
+
+    # Don't copy input into output
+    m.set_copy_input(False)
 
     # Write out and run
     model_name = 'models/hyper_slab_eff_t{0}_temperature'.format(TAU_LABEL[tau_v])
-    m.write(model_name + '.rtin', overwrite=True)
+    m.write(model_name + '.rtin', overwrite=True, copy=False)
     # m.run(model_name + '.rtout', mpi=True, overwrite=True, n_processes=12)
