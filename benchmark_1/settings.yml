@@ -1,0 +1,21 @@
+dust: ../dust/effgrain_1.0.hdf5
+
+baes16_xi: 0.2
+
+energy_threshold: 1.e-120
+
+temperature:
+  n_photons: 1.e+9
+  n_iter: 10
+
+seds:
+  n_photons_img_source: 1.e+6
+  n_photons_img_dust: 1.e+6
+  n_photons_ray_source: 1
+  n_photons_ray_dust: 1.e+8
+
+images:
+  n_photons_img_source: 1.e+8
+  n_photons_img_dust: 1.e+8
+  n_photons_ray_source: 1
+  n_photons_ray_dust: 1.e+8

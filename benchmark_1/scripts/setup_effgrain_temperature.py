@@ -6,9 +6,8 @@ from hyperion.model import Model
 from hyperion.dust import SphericalDust
 from hyperion.util.constants import pc, c
 
-NPHOTONS = 1e9
-NITER_MAX = 20
-NITER = 10
+import yaml
+settings = yaml.load(open('settings.yml'))
 
 if not os.path.exists('models'):
     os.mkdir('models')
@@ -42,7 +41,7 @@ for tau_v in [0.01, 0.1, 1, 10]:
 
     # Grain Properties:
 
-    d = SphericalDust('../dust/effgrain_1.0.hdf5')
+    d = SphericalDust(settings['dust'])
     chi_v = d.optical_properties.interp_chi_wav(1.)
 
     # Determine density in slab
@@ -67,7 +66,7 @@ for tau_v in [0.01, 0.1, 1, 10]:
     s.spectrum = (nu, fnu)
 
     # Set up number of photons
-    m.set_n_photons(initial=NPHOTONS, imaging=0)
+    m.set_n_photons(initial=settings['temperature']['n_photons'], imaging=0)
 
     m.conf.output.output_specific_energy = 'all'
 
@@ -75,7 +74,7 @@ for tau_v in [0.01, 0.1, 1, 10]:
     # instead to be safe since this run doesn't take too long.
     # m.set_n_initial_iterations(NITER_MAX)
     # m.set_convergence(True, percentile=99.9, absolute=2., relative=1.01)
-    m.set_n_initial_iterations(NITER)
+    m.set_n_initial_iterations(settings['temperature']['n_iter'])
 
     # Don't copy input into output
     m.set_copy_input(False)
