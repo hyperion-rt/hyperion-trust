@@ -48,7 +48,15 @@ for model_path in glob.glob(os.path.join('models', '*_temperature.rtout')):
     # scattered flux at high optical depths in the slab.
     m.set_forced_first_interaction(True, algorithm='baes16', baes16_xi=0.2)
 
+    # When we read in the model above, the link to the dust file is lost, so we
+    # replace the dust object by the filename to avoid making the size of
+    # input/output files too large.
+    m.dust = ['../dust/effgrain_1.0.hdf5']
+
+    # Don't copy input into output
+    m.set_copy_input(False)
+
     # Write out and run
     model_name = os.path.join('models', os.path.basename(model_path).replace('temperature.rtout', 'images'))
-    m.write(model_name + '.rtin', overwrite=True)
+    m.write(model_name + '.rtin', overwrite=True, copy=False)
     #m.run(model_name + '.rtout', overwrite=True, mpi=True)
